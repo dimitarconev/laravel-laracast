@@ -12,13 +12,21 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+	$baba = DB::table("task")->get();
+    return view('welcome',compact("baba"));
 });
 
-Route::get('/about',function(){
-    return view("about");
+Route::get('about', function () {
+    return view('about');
 });
 
-Route::get('/test',function(){
-    return view("about");
+Route::get("/tasks",function(){
+	$tasks = DB::table("task")->latest()->get();
+	return view("tasks.index",compact("tasks"));
+});
+
+
+Route::get('/tasks/{task}', function ($id) {
+	$task = DB::table("task")->find($id);
+    return view('tasks.show',compact("task"));
 });
